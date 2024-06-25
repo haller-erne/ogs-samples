@@ -15,6 +15,9 @@
 # Compiled Lua sources
 luac.out
 
+# temporary stuff
+GUID.txt
+
 # Shared objects (shouldn't be there anyway)
 *.dll
 *.so
