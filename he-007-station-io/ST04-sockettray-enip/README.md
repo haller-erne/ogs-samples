@@ -1,13 +1,14 @@
 # ST01-sockettray-enip
 
-This OGS sample project shows how to exchange data with the Turck TBEN-S1-8DXP
-EtherNet/IP IO remote IO device. The setup is similar to the sample
-[../ST01-button-modbus](../ST01-button-modbus), but uses EtherNet/IP instead of
-Modbus/TCP and connects the IO to implement a socket tray function instead of a
-acknowledge button.
+This OGS sample project shows how to exchange data with the [Turck TBEN-S1-8DXP EtherNet/IP IO](https://www.turck.de/en/product/6814023) remote IO device. The setup
+is similar to the sample [../ST01-button-modbus](../ST01-button-modbus), but uses
+EtherNet/IP instead of Modbus/TCP and connects the IO to implement a socket tray
+function instead of an acknowledge button.
 
 The device type and communication parameters are defined in `station.ini` and some
 LUA code is used to map the physical inputs to the socket tray selection for tool #3.
+This sample also shows how to add a new EthernNet/IP device to the list of known
+devices (see [enip-turck-tben.lua](./enip-turck-tben.lua))
 
 ## Overall setup
 
@@ -82,6 +83,12 @@ PORT1=502
 IP2=LUA
 ```
 
+**NOTE**: Due to the way, the socket tray functionality works in OGS, the sockets
+are numbered sequentially. To use the sockets connected over EtherNet/IP, you must
+specify spocket number `5` or `6` in the workflow configuration, as sockets 5-8 are
+mapped to group #3 and the group #3 is implemented in the custom LUA socket handler.
+
+
 ## EtherNet/IP device communication parameters
 
 The LUA `station_io_modbus` module expects the Modbus/TCP device parameters to
@@ -94,25 +101,13 @@ be defined in the `station.ini`-section `[STATION_IO_MODBUS]` as follows:
 ; Reference a device by <name> later from the station_io_enip.lua file.
 ; NOTE: include station_io_enip.lua to use this. 
 DEBUG=0
-TURCK_IO=10.10.2.135,ParamsTurckTBEN_S1_8DXP
+TURCK_IO=10.10.2.135,TurckTBEN_S1_8DXP
 ;IOLINK_MASTER=192.168.1.71,TURCK_AL1324
 ```
 
-Basically there are the following parameters:
-
-- MODE: 1 = use FC23 read/write, 0 = use seperate read/write calles
-- INI_REG: initial register write. The registers and values given are written whenever
-  communication is successfully established. Some devices (like the Rexroth IO-block)
-  requires this to reset any faults before outout can be enabled.
-- WR_REG, RD_REG: defines a list if registers to be read and written for cyclic data
-  exchange.
-
-The parameter format for INI_REG, WR_REG and RD_REG are JSON formatted arrays. The item
-parameters are:
-
-- adr: Modbus input/holding register address for read or write
-- len: Number of 16-bit registers to read or write
-- val: Array of 16-bit numbers for the initial register write
+Basically there is only one parameter: defining a new STATION_IO device named `TURCK_IO`
+which has the IP address 10.10.2.135 and used the EtherNet/IP device model `TurckTBEN_S1_8DXP`.
+Note, that `TurckTBEN_S1_8DXP` is defined in [enip-turck-tben.lua](./enip-turck-tben.lua).
 
 ## Adding new EtherNet/IP devices
 
@@ -124,10 +119,16 @@ is what is usually defined in the EDS file shipped with the device.
 
 To add new devices, add a new item to the global `ethernet_devices` table with the
 parameters from the EDS file. To use this new device, reference the item name from
-the `station.ini` configuration.
+the `station.ini` configuration. See [enip-turck-tben.lua](./enip-turck-tben.lua)
+for a sample configuration for the [Turck TBEN-S1-8DXP EtherNet/IP IO](https://www.turck.de/en/product/6814023) remote IO device.
 
 ## Running a test
 
-For a quick test, use any workflow where a `key input` tool is used.
-The configuration database contains a sample workflow `T-01`, wehre only a `key input` tool is
-defined (start it by entering the model code `T-31` and any 10-digit serial number).
+For a quick test, use the `T-03` model. The workflow for this model three operations for
+tool #3, where operation 1 requires socket #5 and operation 2 requires socket #6.
+
+To test, start the workflow by entering the model code `T-03` and any 10-digit serial number.
+
+To see the IO in action, you can use the `ETW trace viewer` (must be run elevated, i.e. "run as administrator"). Set the "Show Info" dropdown to "all (standard + debug)", enable the "File" column (click the top-left ellipsis button for opening the field chooser). Then click the "File" column header and select the ".../station_io.lua" entry. This will then show the following (report input/socket changes):
+![ETW Tracelog for station_io.lua](./enip-tracelog.png)
+

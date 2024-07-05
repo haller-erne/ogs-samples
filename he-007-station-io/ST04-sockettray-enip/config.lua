@@ -8,7 +8,8 @@ requires = {
 	"import_config",
 	"barcode",
 	"user_manager",
-	"station_io"
+	"station_io",
+	"enip-turck-tben",
 }
 current_project.logo_file = '../shared/logo-rexroth.png'
 current_project.billboard = 'http://127.0.0.1:60000/billboard.html'

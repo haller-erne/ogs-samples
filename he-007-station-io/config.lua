@@ -4,7 +4,8 @@
 --
 --local project_folder = 'ST01-button-modbus'
 --local project_folder = 'ST02-button-im24v'
-local project_folder = 'ST03-button-usb'
+--local project_folder = 'ST03-button-usb'
+local project_folder = 'ST04-sockettray-enip'
 
 -- Do NOT change the following lines!
 require("shared.loadconfig").init(project_folder)
