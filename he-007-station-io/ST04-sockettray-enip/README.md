@@ -1,7 +1,7 @@
 # ST01-sockettray-enip
 
-This OGS sample project shows how to exchange data with the MURR IMPACT67-ProE
-EtherNet/IP IO-Link master remote IO device. The setup is similar to the sample
+This OGS sample project shows how to exchange data with the Turck TBEN-S1-8DXP
+EtherNet/IP IO remote IO device. The setup is similar to the sample
 [../ST01-button-modbus](../ST01-button-modbus), but uses EtherNet/IP instead of
 Modbus/TCP and connects the IO to implement a socket tray function instead of a
 acknowledge button.
@@ -26,7 +26,9 @@ local enip_io = require('station_io_enip')  -- load the EtherNet/IP IO driver
 
 Here, the EtherNet/IP LUA driver for OGS is loaded. Whenever this driver is loaded, it
 reads the `station.ini`-section `[STATION_IO_ENIP]`. Each line in this section defines
-an EtherNet/IP device controlled by OGS (see [EtherNet/IP device communication parameters](#ethernetip-device-communication-parameters) below for more details). It also defines the type of the device for automatic initialization and cyclic read/write operation (class 1 cyclic data exchange / assembly access).
+an EtherNet/IP device controlled by OGS (see [EtherNet/IP device communication parameters](#ethernetip-device-communication-parameters)
+below for more details). It also defines the type of the device for automatic initialization
+and cyclic read/write operation (class 1 cyclic data exchange / assembly access).
 
 As a second step, in the `station_io.lua` file, the driver events are hooked up, so
 that changes in the IO device connection state or changes in the IO data can be handled.

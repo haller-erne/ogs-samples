@@ -8,7 +8,7 @@ requires = {
 	"import_config",
 	"barcode",
 	"user_manager",
-	"usb_button",
+	"usb_button"
 }
 current_project.logo_file = '../shared/logo-rexroth.png'
 current_project.billboard = 'http://127.0.0.1:60000/billboard.html'

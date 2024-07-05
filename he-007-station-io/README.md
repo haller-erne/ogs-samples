@@ -41,18 +41,7 @@ The following samples are available:
 
   For details, see [ST03-button-usb/README.md](ST03-button-usb/README.md)
 
-- **ST04-kemulti-im24v**: More complex example using a KE350 with multiple tools and
-  external start switches connected to IM24V. Shows how to forward signals and add some
-  logic depending on the currently active tool (multiplex start signal depending on the
-  active tool to the FO1 CW signal). To enable the external I/O feature of the
-  OpenProtocol interface, set the parameter `EXTERNAL_IO_OFFSET=2` in the `[OPENPROTO]`
-  section of `station.ini`.
-
-  Use the model barcode 'M-07' to quickly run a test.
-
-  For details, see [ST04-kemulti-im24v/README.md](ST04-kemulti-im24v/README.md)
-
-- **ST05-sockettray-enip**: Connect two sensors over EtherNet/IP and use these as a
+- **ST04-sockettray-enip**: Connect two sensors over EtherNet/IP and use these as a
   custom socket tray for a tool. Shows how to exchange IO with an EtherNet/IP device and
   how to integrate custom logic into the OGS socket tray handling. See section `[SocketTray]`
   in `station.ini` for the specific configuration (standard socket tray `IP1` and custom
@@ -60,7 +49,7 @@ The following samples are available:
 
   Use the model barcode 'M-08' to quickly run a test.
 
-  For details, see [ST05-sockettray-enip/README.md](ST05-sockettray-enip/README.md)
+  For details, see [ST04-sockettray-enip/README.md](ST04-sockettray-enip/README.md)
 
 - **more samples**: Please also see samples `he-008`. This implements tool location tracking
   (tool positioning) through various devices. One of the samples uses rotary and distance
