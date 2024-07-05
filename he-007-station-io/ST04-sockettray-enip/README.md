@@ -88,7 +88,6 @@ are numbered sequentially. To use the sockets connected over EtherNet/IP, you mu
 specify spocket number `5` or `6` in the workflow configuration, as sockets 5-8 are
 mapped to group #3 and the group #3 is implemented in the custom LUA socket handler.
 
-
 ## EtherNet/IP device communication parameters
 
 The LUA `station_io_modbus` module expects the Modbus/TCP device parameters to
@@ -131,4 +130,3 @@ To test, start the workflow by entering the model code `T-03` and any 10-digit s
 
 To see the IO in action, you can use the `ETW trace viewer` (must be run elevated, i.e. "run as administrator"). Set the "Show Info" dropdown to "all (standard + debug)", enable the "File" column (click the top-left ellipsis button for opening the field chooser). Then click the "File" column header and select the ".../station_io.lua" entry. This will then show the following (report input/socket changes):
 ![ETW Tracelog for station_io.lua](./enip-tracelog.png)
-
