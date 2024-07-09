@@ -1,0 +1,106 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "heOGS (he)",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              "command": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/monitor.exe",
+              "communication": "stdio"
+            },
+            "args": [
+            ],
+            "scriptRoots": [
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug",
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug/lualibs",
+            ],
+            "stopOnEntry": false,
+            "cwd": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/",
+            "verbose": false,
+            "integratedTerminal": true,
+            "pullBreakpointsSupport": true,
+        },
+        {
+            "name": "lua-5.1 (he)",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              "command": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/lua-5.1-dyn.exe",
+              "communication": "stdio"
+            },
+            "args": [
+                "${file}"
+            ],
+            "scriptRoots": [
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug",
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug/lualibs",
+            ],
+            "stopOnEntry": true,
+            "cwd": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/",
+            "verbose": false,
+            "integratedTerminal": true,
+            "pullBreakpointsSupport": true,
+        },
+        {
+            "name": "heOGS (local lua debugger)",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              "command": "c:/program files (x86)/bosch rexroth ag/OGS 3.0/monitor.exe",
+              "communication": "stdio"
+            },
+            "args": [
+            ],
+            "scriptRoots": [
+                //"D:/Entwicklung/sw/heOGS/config/projects/Bosch Horb/Montage/ST130",
+                "c:/program files (x86)/bosch rexroth ag/OGS 3.0",
+                "c:/program files (x86)/bosch rexroth ag/OGS 3.0/lualibs",
+            ],
+            "stopOnEntry": true,
+            "cwd": "c:/program files (x86)/bosch rexroth ag/OGS 3.0/",
+            //"verbose": true
+        },
+        {
+            "name": "heOGS (he-tarantool)",
+            "type": "lua-tarantool",
+            "request": "launch",
+            "program": {
+              "tarantool": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/monitor.exe",
+              "communication": "stdio"
+            },
+            "args": [
+            ],
+            "scriptRoots": [
+                //"D:/Entwicklung/sw/heOGS/config/projects/Bosch Horb/Montage/ST130",
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug",
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug/lualibs",
+            ],
+            "stopOnEntry": true,
+            "cwd": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/",
+            "verbose": true
+        },
+        {
+            "name": "heOGS (ic)",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              /*"command": "C:/Program files (x86)/Bosch Rexroth AG/OGS 3.0/monitor.exe",*/
+              "command": "D:\\src\\projects\\Werkerfuehrung\\OGS\\ogs-trunk\\bin\\debug\\monitor.exe",   
+              "communication": "stdio"
+            },
+            "args": [
+            ],
+            "scriptRoots": [
+                //"D:/Entwicklung/sw/heOGS/config/projects/Bosch Horb/Montage/ST130",
+                "D:\\src\\projects\\Werkerfuehrung\\OGS\\ogs-trunk\\bin\\debug",
+                "D:\\src\\projects\\Werkerfuehrung\\OGS\\ogs-trunk\\bin\\debug\\lualib",
+            ],
+            "stopOnEntry": true,
+            "cwd": "D:\\src\\projects\\Werkerfuehrung\\OGS\\ogs-trunk\\bin\\debug",
+        }
+    ]
+}
