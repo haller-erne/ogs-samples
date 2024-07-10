@@ -156,3 +156,107 @@ did not work (most likely due to an older version of OGS). The following wokarou
 - upgrade OGS to a more recent version
 - manually copy `./config/he-007.fbk` into your sample subdirectory (e.g. `./ST01-button-modbus`)
 
+## Technical details
+
+### Low-level OGS positioning interface
+
+To implement position tracking, OGS provides the following interface functions. If these are implemented, then positioning is available:
+
+``` LUA
+
+-- Check if positioning system reports in position or not. Cyclically called, if a task
+-- with positioning enabled is active.
+-- Returns:
+--   errortext on error
+--   true in position
+--   false not in position
+-- Parameters:
+--   Tool: Tool/channel number of active tool
+--   JobName, TaskName: Currently active job/task
+--   PosCtrl: Position number from the config database (0 = positioning not active)
+--   ToolPosDef: Database position data (encoded as a string, see below)
+--   TaskState:
+--       = 0 - before task start (checking external conditions...)
+--       = 1 - after task start (task released)  but tool is still not running (start button 
+--             not pressed)
+--       = 2 - Tool In Cycle
+--   TaskStep:
+--       = 0 (reserved)
+function PS_CheckToolPosition(Tool, JobName, TaskName, PosCtrl, ToolPosDef, TaskState, TaskStep)
+end
+
+-- Check if positioning system reports in position or not. Cyclically called, if a task
+-- with positioning enabled is active.
+-- Returns:
+--   new_state, delta_z, delta_y, delta_x, newToolPosDef, DisplayMsg
+-- or
+--   nil,       nil,     nil,     nil,     '-',           ErrorMsg
+-- If a non-nil new_state is returned, the (string) value in newToolPosDef is stored in
+-- the database as the position info of the task. It is up to the LUA code to encode/decode
+-- the actual position into/from the string.
+--
+-- Parameters:
+--   State: current teach state 
+--          (unknown = 0, teaching active = 1, start teaching = 2, stop teaching = 3)
+--   Tool: Tool/channel number of active tool
+--   JobName, TaskName: Currently active job/task
+--   PosCtrl: Position number from the config database (0 = positioning not active)
+--   ToolPosDef: Database position data
+function PS_TeachToolPosition(State, Tool, JobName, TaskName, PosCtrl, ToolPosDef)
+end
+
+```
+
+### High-level OGS positioning infrastructure
+
+Instead of implementing the raw functions for position tracking, OGS provides a set of
+(extensible) drivers. The architecture allows extending the drivers with custom code, e.g.
+to implement additional tracking hardware.
+
+To use these drivers, include the `positioning.lua` file (find it in [../shared/positioning.lua](../shared/positioning.lua)) in your project (through the `config.lua` requires list or directly
+by adding a `require('positioning)` somewhere in the code').
+
+The `positioning.lua` file automatically scans the `[OPENPROTO]` section for `CHANNEL_XX_POSITIONING=<section>` parameters. If found, then the `<section>` is read. The
+section is expected to contain the `DRIVER=` parameter (to select the actual hardware)
+driver, as well as the driver-specific parameters for this specific tool. Note, that the
+driver itself might need some parameters (in its own section in `station.ini`).
+
+Here is a sample fragment on how to configure a tool with the AR-Tracking driver:
+
+``` ini
+[OPENPROTO]
+CHANNEL_01=192.168.1.42
+CHANNEL_01_TYPE=GWK
+CHANNEL_01_PORT=4002
+; --> this channel shall use ART positioning
+CHANNEL_01_POSITIONING=POSITIONING_ART_CH1
+
+; --> Connection between the CHANNEL_01 and the ART positioning system
+[POSITIONING_ART_CH1]
+; --> use the ART positioning driver for this channel
+DRIVER=ART
+; for ART: define the target tracker name/number for this tool as configured in DTrack
+TARGET=1
+
+; --> common parameter required by the ART driver
+[POSITIONING_ART]
+; IP address and port number of the SmartTrack camera:
+IP=192.168.1.30
+PORT=5000
+```
+
+Currently, the following drivers are available:
+
+- `ART`: Driver for the [AR-Tracking SmartTrack3 realtime tracking system](https://ar-tracking.com/en/product-program/smarttrack3), implemented in `./shared/positioning_ART.lua`
+
+- `IO`: Driver for the rotation + distance type systems (like the Jäger HandyFlex) with optional
+  support for tilt, implemented in `./shared/positioning_IO.lua`. Note that this driver requires
+  calling `UpdatePos_RotIncLenInc()` or `UpdatePos_RotIncLenAbs()` to update the raw position data. The driver then handles coordinate transforms, teaching and tolerance calculations internally.
+- `DIGITAL`: Minimal positioning driver, which only uses a single "Inpos" signal (one must call
+  the drivers `UpdatePos_InPos()` function). This can be used to connect exisiting positioning
+  systems or implement own logic based on digital input combinations.The driver is implemented in `./shared/positioning_DIGITAL.lua`.
+
+The samples in this project show the usage of all of these drivers.
+
+To add a custom driver, use one of the existing drivers as a base and override its functions.
+If the LUA module file name adheres to the driver naming convention (module name is `positioning_<drivername>.lua`), then the driver will automatically load, if `DRIVER=<drivername>` is given in `station.ini`.
