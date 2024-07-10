@@ -125,3 +125,39 @@ effectively defining which users can push changes from the station to the server
 read updated version (pull changes).
 
 ![git diagram](./git-setup.drawio.svg)
+
+The git workflow on the station is minimal - changes on the station are added/committed
+locally, then pushed (`git push`) to the `Production server`. Other stations can pull
+changes (`git pull`) and update their local working copy. If sparse checkout is used,
+then typically only two folders are used on each station:
+
+- the shared data (e.g. `Montage/shared`)
+- the station specific data (e.g. `Montage/ST01`)
+
+The `Production server` still has all the station specific folders (for full change tracking,
+backup & restore).
+
+#### Get upstream changes (incoming)
+
+To synchronize with upstream changes (i.e. changes from the GitHub Internet repository), an `Office Workstation` with internet access is needed.
+To get all changes, the followin steps are needed:
+ 
+- `git pull origin`: get changes from the GitHub repository and merge these into the local repository of the `Office Workstation`
+- `git push production`: push the changes into the `Production Server` repository.
+- To finally update the stations: On each station run `git pull` (which by defaults pulls changes from the `Production server`)
+
+#### Publish local changes (outgoing)
+
+To publish local changes with the upstream repository (GitHub Internet repository), an `Office Workstation` with internet access is needed.
+To send out all changes to GitHub, the followin steps are needed (on the `Office Workstation`):
+
+- `git pull production`: get latest changes from the `Production Server` repository and merge these into the local repository of the `Office Workstation`
+- `git push origin`: push the changes out into the Github internet repository.
+
+Obviously all changes on the stations should be commited first and pushed to the `Production Server`: On each station run `git push` (which by defaults pulls changes from the `Production server`) before pulling the changes from the `Production Server`
+
+
+
+
+
+
