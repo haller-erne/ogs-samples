@@ -23,6 +23,20 @@ local function CopyFile(old_path, new_path)
     return new_file_sz == old_file_sz
 end
 --------------------------------------------------------------------------------------------------
+-- helper to get the file name from a full path
+local function LuaExtractFileName(src)
+    local rev = src:reverse()
+    local lastslash = rev:find("%\\")
+    local lastbackslash = rev:find("%/")
+    if not lastslash then lastslash = 1024 end
+    if not lastbackslash then lastbackslash = 1024 end
+    if lastbackslash < lastslash then
+        return src:sub(-lastbackslash+1)
+    else
+        return src:sub(-lastslash+1)
+    end
+end
+--------------------------------------------------------------------------------------------------
 -- Helper to import the tool images from the ../shared/config/images folder. Tool
 -- images must live in the <project>/images folder, so try to synchronize them...
 --
@@ -30,6 +44,12 @@ local function SynchronizeImages(srcpath, dstpath)
 	-- check directory
 	local paths, files = GetFileList(srcpath, 'tool*.png')
 	if paths ~= nil then
+		if files == nil then -- OGS backward compatibility
+            files = {}
+            for i, filename in pairs(paths) do
+                files[i] = LuaExtractFileName(filename)
+            end
+		end
 		for i, filename in pairs(paths) do
 			local fname = dstpath..'/'..files[i]
 			CopyFile(filename, fname)
