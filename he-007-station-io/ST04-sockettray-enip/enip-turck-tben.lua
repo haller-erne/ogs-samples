@@ -3,7 +3,8 @@
 
 -- Load the Ethernet_devices module to add the table
 -- luacheck: globals ethernet_devices
-local known_devices = require('ethernet_devices') or ethernet_devices
+local known_devices = require('ethernet_devices')
+if ethernet_devices then known_devices = ethernet_devices end
 
 -------------------------------------------------------------------------------
 --           Turck TBEN-S1-8DXP digital I/O module
@@ -51,3 +52,5 @@ local ParamsTurckTBEN_S1_8DXP = {
 -- Extend the global OGS EtherNet/IP device table
 -- Make sure to set the same name as used in station.ini [STATION_IO_ENIP] section!
 known_devices["TurckTBEN_S1_8DXP"] = ParamsTurckTBEN_S1_8DXP
+
+
