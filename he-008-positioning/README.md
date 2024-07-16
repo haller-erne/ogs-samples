@@ -135,7 +135,7 @@ executed by using the model barcode `T-<tool>` (with a 2-digit tool number) or `
 | Model barcode | Tool number | Comment                                               |
 | ------------- | ----------- | ----------------------------------------------------- |
 |     S-01      |       1     | Tool 1 positioning using I/O                          |
-|     S-02      |       1     | Tool 1 positioning using rotational and laser sensors |
+|     S-02      |       2     | Tool 2 positioning using rotational and laser sensors |
 |     S-03      |       1     | Tool 1 positioning using ART camera                   |
 |     T-01      |       1     | Nexo                                                  |
 |     T-02      |       2     | CS351                                                 |
@@ -165,7 +165,7 @@ If you get an error like `cannot find station.fds', then the automatic configura
 did not work (most likely due to an older version of OGS). The following wokarounds exist:
 
 - upgrade OGS to a more recent version
-- manually copy `./config/he-007.fbk` into your sample subdirectory (e.g. `./ST01-button-modbus`)
+- manually copy `./config/he-008.fbk` into your sample subdirectory (e.g. `./ST01-button-modbus`)
 
 ## Technical details
 
