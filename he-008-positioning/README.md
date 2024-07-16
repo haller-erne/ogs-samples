@@ -63,6 +63,17 @@ The following samples are available:
 
   For details, see [ST01-digital-io/README.md](ST01-digital-io/README.md)
 
+- **ST02-ethernetip-sensors**: Use Ethernet/IP connected rotary sensors read angle and
+  distance values for a 2D torque support arm (like [Jaeger Handling HandyFlex](https://www.jaeger-handling.de/handy-flex?lang=en)). The sample shows how to forward position
+  information and translate this into a XY coordinate system - including referencing zero
+  and teaching the actual positions from the operator screens in the OGS runtime.
+  The EtherNet/IP communication settings and the mechanical parameters (like sensor increments
+  per rotation) are configured in `station.ini`.
+
+  Use the model barcode 'S-02' to quickly run a test.
+
+  For details, see [ST02-ethernetip-sensors/README.md](ST02-ethernetip-sensors/README.md)
+
 - **ST02-iolink-sensors**: Use a Ethernet/IP connected IO-Link master with a rotary and
   a laser distance sensor to read angle and distance values for a 2D torque support arm
   (like [Jaeger Handling HandyFlex](https://www.jaeger-handling.de/handy-flex?lang=en)).
