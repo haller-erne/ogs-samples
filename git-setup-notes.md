@@ -155,9 +155,3 @@ To send out all changes to GitHub, the followin steps are needed (on the `Office
 - `git push origin`: push the changes out into the Github internet repository.
 
 Obviously all changes on the stations should be commited first and pushed to the `Production Server`: On each station run `git push` (which by defaults pulls changes from the `Production server`) before pulling the changes from the `Production Server`
-
-
-
-
-
-
