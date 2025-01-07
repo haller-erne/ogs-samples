@@ -368,6 +368,41 @@ local function Init()
             end
         end
     end
+    -- Now also try to find the positioning section for the LUA tools...
+	tbl = ReadIniSection('CHANNELS')
+	if type(tbl) == 'table' then
+        for k,v in pairs(tbl) do
+            local chnsect = ReadIniSection(v)
+            if type(chnsect) == 'table' then
+                if chnsect.POSITIONING then
+                    -- found something
+                    local chn = {
+                        chn = tonumber(k),
+                        section = chnsect.POSITIONING
+                    }
+                    -- try read the section
+                    local ini = ReadIniSection(chnsect.POSITIONING)
+                    if type(ini) ~= 'table' then
+                        error(string.format('INI-section: "%s": section missing!', chnsect.POSITIONING))
+                    end
+                    -- let's try to load the driver...
+                    -- By default, we use a naming conventions as follows: Driver=ART --> require('positioning_ART'),
+                    M.LoadDriverModule(ini.DRIVER, 'positioning_'..ini.DRIVER)
+                    if drivers[ini.DRIVER] ~= nil then
+                        chn.cfg = ini
+                        chn.drv = drivers[ini.DRIVER]
+                        M.channels[chn.chn] = chn
+                        XTRACE(16, string.format("Positioning: Add Tool %d: %s", chn.chn, chnsect.POSITIONING))
+                        if chn.drv.Init then
+                            chn.drv.Init(chn)
+                        end
+                    else
+                        error(string.format('INI-section: "%s": unknown/missing DRIVER!', chnsect.POSITIONING))
+                    end
+                end
+            end
+        end
+    end
     initialized = true
 end
 
