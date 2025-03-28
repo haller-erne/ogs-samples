@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process  id="01234587ZRX" typ="ZRX" version="1.0">
+	<Station name="OGS Demonstration" Host="Khushminder" Time-stamp="16.10.2023 10:10:42" Customer-info="" Worker="YELLOW" Master="" Result="OK">
+		<Component name="ZRX - U/B Skid" Time-stamp="16.10.2023 10:10:43" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="xxx" Prg="1" Actual-Trq="44.79" Min-trq="30.00" Max-Trq="80.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="xxx" Prg="1" Actual-Trq="49.64" Min-trq="30.00" Max-Trq="80.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="xxx" Prg="1" Actual-Trq="45.60" Min-trq="30.00" Max-Trq="80.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="xxx" Prg="1" Actual-Trq="46.58" Min-trq="30.00" Max-Trq="80.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="5" Name="S5" Tool="xxx" Prg="1" Actual-Trq="46.16" Min-trq="30.00" Max-Trq="80.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="6" Name="S6" Tool="xxx" Prg="1" Actual-Trq="48.34" Min-trq="30.00" Max-Trq="80.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="ZRX - Transfer Case Skid" Time-stamp="16.10.2023 10:12:18" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="xxx" Prg="22" Actual-Trq="48.20" Min-trq="30.00" Max-Trq="70.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="xxx" Prg="22" Actual-Trq="46.58" Min-trq="30.00" Max-Trq="70.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="xxx" Prg="22" Actual-Trq="46.76" Min-trq="30.00" Max-Trq="70.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="xxx" Prg="22" Actual-Trq="45.56" Min-trq="30.00" Max-Trq="70.00" Angle="0.0" Min-Angle="0.0" Max-Angle="9999.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+	</Station>
+</process>

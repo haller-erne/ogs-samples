@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process  id="12345679ZRX" typ="ZRX" version="1.0">
+	<Station name="CTT OGS Demonstration" Host="Khushminder" Time-stamp="19.03.2024 14:53:26" Customer-info="" Worker="YELLOW" Master="" Result="OK">
+		<Component name="ZRX - U/B Skid" Time-stamp="19.03.2024 13:41:32" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="1" Actual-Trq="20.39" Min-trq="18.00" Max-Trq="22.00" Angle="13.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="1" Actual-Trq="11.16" Min-trq="8.00" Max-Trq="12.00" Angle="22.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="ZRX - Transfer Case Skid" Time-stamp="19.03.2024 14:51:41" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="2" Actual-Trq="14.35" Min-trq="12.00" Max-Trq="16.00" Angle="5.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="2" Actual-Trq="14.88" Min-trq="12.00" Max-Trq="16.00" Angle="33.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="Temp Test" Time-stamp="19.03.2024 14:53:04" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Ack" Prg="0" Actual-Trq="INF" Min-trq="0.00" Max-Trq="0.00" Angle="INF" Min-Angle="0.0" Max-Angle="0.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+	</Station>
+</process>

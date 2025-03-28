@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process  id="12345678ZRX" typ="ZRX" version="1.0">
+	<Station name="CTT OGS Demonstration" Host="Khushminder" Time-stamp="11.06.2024 11:29:55" Customer-info="" Worker="il" Master="il" Result="OK">
+		<Component name="ZRX - U/B Skid" Time-stamp="11.06.2024 11:29:43" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="15" Actual-Trq="8.83" Min-trq="2.71" Max-Trq="13.56" Angle="0.0" Min-Angle="0.0" Max-Angle="999.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="15" Actual-Trq="7.38" Min-trq="2.71" Max-Trq="13.56" Angle="0.0" Min-Angle="0.0" Max-Angle="999.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="16" Actual-Trq="8.64" Min-trq="3.00" Max-Trq="20.00" Angle="1.0" Min-Angle="0.0" Max-Angle="999.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="ZRX - Transfer Case Skid" Time-stamp="11.06.2024 11:33:38" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Ergo Pistol" Prg="3" Actual-Trq="0.10" Min-trq="2.00" Max-Trq="2.00" Angle="3003.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Ergo Pistol" Prg="3" Actual-Trq="0.10" Min-trq="2.00" Max-Trq="2.00" Angle="3003.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Ergo Pistol" Prg="4" Actual-Trq="0.10" Min-trq="20.00" Max-Trq="20.00" Angle="1002.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="Temp Test" Time-stamp="11.06.2024 11:33:56" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Ack" Prg="0" Actual-Trq="INF" Min-trq="0.00" Max-Trq="0.00" Angle="INF" Min-Angle="0.0" Max-Angle="0.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+	</Station>
+</process>

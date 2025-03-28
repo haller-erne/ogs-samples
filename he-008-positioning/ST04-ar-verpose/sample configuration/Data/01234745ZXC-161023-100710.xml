@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process  id="01234745ZXC" typ="ZRX" version="1.0">
+	<Station name="OGS Demonstration" Host="Khushminder" Time-stamp="16.10.2023 10:03:07" Customer-info="" Worker="il" Master="il" Result="OK">
+		<Component name="ZRX - U/B Skid" Time-stamp="16.10.2023 10:03:07" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="1" Actual-Trq="23.65" Min-trq="" Max-Trq="" Angle="10.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="1" Actual-Trq="21.97" Min-trq="" Max-Trq="" Angle="" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="1" Actual-Trq="20.86" Min-trq="" Max-Trq="" Angle="" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="Opex+" Prg="1" Actual-Trq="21.85" Min-trq="" Max-Trq="" Angle="" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="5" Name="S5" Tool="Opex+" Prg="1" Actual-Trq="20.98" Min-trq="" Max-Trq="" Angle="" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="6" Name="S6" Tool="Opex+" Prg="1" Actual-Trq="22.93" Min-trq="" Max-Trq="" Angle="1.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="ZRX - Transfer Case Skid" Time-stamp="16.10.2023 10:03:54" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="2" Actual-Trq="52.84" Min-trq="40.00" Max-Trq="60.00" Angle="19.0" Min-Angle="5.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="2" Actual-Trq="57.36" Min-trq="40.00" Max-Trq="60.00" Angle="18.0" Min-Angle="5.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="2" Actual-Trq="51.59" Min-trq="40.00" Max-Trq="60.00" Angle="16.0" Min-Angle="5.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="Opex+" Prg="2" Actual-Trq="53.41" Min-trq="40.00" Max-Trq="60.00" Angle="15.0" Min-Angle="5.0" Max-Angle="55.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+	</Station>
+</process>

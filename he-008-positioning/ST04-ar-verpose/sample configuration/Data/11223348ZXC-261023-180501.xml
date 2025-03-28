@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process  id="11223348ZXC" typ="ZRX" version="1.0">
+	<Station name="OGS Demonstration" Host="Khushminder" Time-stamp="26.10.2023 18:03:50" Customer-info="" Worker="il" Master="il" Result="OK">
+		<Component name="ZRX - U/B Skid" Time-stamp="26.10.2023 18:03:50" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="1" Actual-Trq="5.06" Min-trq="" Max-Trq="" Angle="11.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="1" Actual-Trq="5.07" Min-trq="" Max-Trq="" Angle="1.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="1" Actual-Trq="6.33" Min-trq="" Max-Trq="" Angle="2.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="Opex+" Prg="1" Actual-Trq="6.49" Min-trq="" Max-Trq="" Angle="3.0" Min-Angle="" Max-Angle="" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="Oil dipstick popup" Time-stamp="26.10.2023 18:04:05" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Ack" Prg="0" Actual-Trq="INF" Min-trq="0.00" Max-Trq="0.00" Angle="INF" Min-Angle="0.0" Max-Angle="0.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="FC Top LH" Time-stamp="26.10.2023 18:04:10" Result="OK">
+			<screw>
+				<Screw number="1" Name="1" Tool="Delay" Prg="2" Actual-Trq="0.00" Min-trq="0.00" Max-Trq="0.00" Angle="0.0" Min-Angle="0.0" Max-Angle="0.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="2" Tool="Barcode" Prg="0" Actual-Trq="INF" Min-trq="0.00" Max-Trq="0.00" Angle="INF" Min-Angle="0.0" Max-Angle="0.0" Result="OK" Comment="B1407123546"/>
+				<Screw number="3" Name="3" Tool="Manual Popup" Prg="0" Actual-Trq="INF" Min-trq="0.00" Max-Trq="0.00" Angle="INF" Min-Angle="0.0" Max-Angle="0.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="ZRX - Transfer Case Skid" Time-stamp="26.10.2023 18:04:34" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="2" Actual-Trq="7.13" Min-trq="5.00" Max-Trq="9.00" Angle="6.0" Min-Angle="5.0" Max-Angle="900.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="2" Actual-Trq="7.28" Min-trq="5.00" Max-Trq="9.00" Angle="8.0" Min-Angle="5.0" Max-Angle="900.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="2" Actual-Trq="7.47" Min-trq="5.00" Max-Trq="9.00" Angle="8.0" Min-Angle="5.0" Max-Angle="900.0" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="Opex+" Prg="2" Actual-Trq="7.33" Min-trq="5.00" Max-Trq="9.00" Angle="11.0" Min-Angle="5.0" Max-Angle="900.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+	</Station>
+</process>

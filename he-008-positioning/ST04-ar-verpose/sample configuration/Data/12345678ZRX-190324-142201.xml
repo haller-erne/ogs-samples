@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process  id="12345678ZRX" typ="ZRX" version="1.0">
+	<Station name="CTT OGS Demonstration" Host="Khushminder" Time-stamp="19.03.2024 14:18:34" Customer-info="" Worker="il" Master="" Result="OK">
+		<Component name="ZRX - U/B Skid" Time-stamp="19.03.2024 14:18:35" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="1" Actual-Trq="20.26" Min-trq="18.00" Max-Trq="22.00" Angle="13.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="1" Actual-Trq="21.41" Min-trq="18.00" Max-Trq="22.00" Angle="11.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="1" Actual-Trq="21.15" Min-trq="18.00" Max-Trq="22.00" Angle="11.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="Opex+" Prg="1" Actual-Trq="20.19" Min-trq="18.00" Max-Trq="22.00" Angle="11.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+		<Component name="ZRX - Transfer Case Skid" Time-stamp="19.03.2024 14:20:42" Result="OK">
+			<screw>
+				<Screw number="1" Name="S1" Tool="Opex+" Prg="2" Actual-Trq="50.59" Min-trq="45.00" Max-Trq="55.00" Angle="23.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="2" Name="S2" Tool="Opex+" Prg="2" Actual-Trq="50.34" Min-trq="45.00" Max-Trq="55.00" Angle="25.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="3" Name="S3" Tool="Opex+" Prg="2" Actual-Trq="50.51" Min-trq="45.00" Max-Trq="55.00" Angle="23.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+				<Screw number="4" Name="S4" Tool="Opex+" Prg="2" Actual-Trq="52.60" Min-trq="45.00" Max-Trq="55.00" Angle="25.0" Min-Angle="3.0" Max-Angle="55.0" Result="OK" Comment=""/>
+			</screw>
+		</Component>
+	</Station>
+</process>
