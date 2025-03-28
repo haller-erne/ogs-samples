@@ -8,6 +8,8 @@ reproducible documentation of the tightening results of all bolts.
 All documentation (including this file) is formatted in Markdown text. To better read these (*.md)
 files, either see them online (at [https://github.com/haller-erne/ogs-samples](https://github.com/haller-erne/ogs-samples)) or use a decent text editor with Markdown support (e.g. the free [Visual Studio Code Editor](https://code.visualstudio.com/Download)).
 
+Please also see the [OGS Tool Tracking and Positioning documentation](https://haller-erne.github.io/ogs/tools/positioning/).
+
 ## Overview
 
 As the underlying idea for positioning is to enable the tool depending on some external
@@ -45,21 +47,21 @@ If a tasks `PS`-value is set to zero, then the position is not tracked for the t
 
 This folder provides a number of different samples (configured for the same workflows), which
 show different options for integating positioning systems.
-To run a specific sample, edit the top-level `config.lua` file (in this folder) and change the project_folder variable to point to the sample subdirectory:
+To run a specific sample, select the projects (sub)folder using the `OGS Project Selector` utility:
 
 ![screenshot - define the active project folder](shared/image-01.png)
 
-**Please note**: All samples use the same basic configuration and workflows. The **main difference** is the `station_io.lua` file and some related settings in `station.ini`. All 
+**Please note**: All samples use the same basic configuration and workflows. The **main difference** is the `station_io.lua` file and some related settings in `station.ini`. All
 sample code is in there (except otherwise noted) - feel free to checkout how the different
 samples work!
 
 The following samples are available:
 
 - **ST01-digital-io**: Use some digital IOs connected over a Rexroth `R-IL ETH BK DI8 DO4 2TX-PAC` Modbus/TCP remote I/O module to OGS and use the inputs as binary encoded position signals.
-  IP-Address and registers are defned in station.ini. This is a very basic sample without 
+  IP-Address and registers are defned in station.ini. This is a very basic sample without
   teaching or other interactive features.
 
-  Use the model barcode 'S-01' to quickly run a test.
+  Use the model barcode `S-01` to quickly run a test.
 
   For details, see [ST01-digital-io/README.md](ST01-digital-io/README.md)
 
@@ -70,34 +72,27 @@ The following samples are available:
   The EtherNet/IP communication settings and the mechanical parameters (like sensor increments
   per rotation) are configured in `station.ini`.
 
-  Use the model barcode 'S-02' to quickly run a test.
+  Use the model barcode `S-02` to quickly run a test.
 
   For details, see [ST02-ethernetip-sensors/README.md](ST02-ethernetip-sensors/README.md)
 
-- **ST02-iolink-sensors**: Use a Ethernet/IP connected IO-Link master with a rotary and
-  a laser distance sensor to read angle and distance values for a 2D torque support arm
-  (like [Jaeger Handling HandyFlex](https://www.jaeger-handling.de/handy-flex?lang=en)).
-  The sample shows how to forward position information and translate this into a XY
-  coordinate system - including referencing zero and teaching the actual positions from
-  the operator screens in the OGS runtime.
-  The EtherNet/IP communication settings and the mechanical parameters (like sensor increments
-  per rotation) are configured in `station.ini`.
-
-  Use the model barcode 'S-02' to quickly run a test.
-
-  For details, see [ST02-iolink-sensors/README.md](ST02-iolink-sensors/README.md)
-
-- **ST03-ar-tracking**: Use the [AR-Tracking SmartTrack3 realtime tracking system](https://ar-tracking.com/en/product-program/smarttrack3) to track a tools position and orientation in
+- **ST03-ar-dtrack**: Use the [AR-Tracking SmartTrack3 realtime tracking system](https://ar-tracking.com/en/product-program/smarttrack3) to track a tools position and orientation in
   3D space. The sample shows advanced positioning features including multi tool tracking,
   angle deviation checking, socket lenght compensation and tolerance objects setup.
   All features (including teaching and realtime position tracking view) are available from
   the operator screens in the OGS runtime.
-  
+
   The SmartTrack camera communication settings and tracker assignment are configured in `station.ini`.
 
-  Use the model barcode 'S-03' to quickly run a test.
+  Use the model barcode `S-03` to quickly run a test.
 
-  For details, see [ST03-ar-tracking/README.md](ST03-ar-tracking/README.md)
+  For details, see [ST03-ar-dtrack/README.md](ST03-ar-dtrack/README.md)
+
+- **ST04-ar-verpose**: Use the [AR-Tracking Verpose AI based camera tracking system](https://ar-tracking.com/en/product-program/verpose) to identify features (bolts) on a part and enable the tool accordingly. The sample uses the Modbus/TCP interface to listen for detected features and matches these against the configured OGS bolts.
+
+  Use the model barcode `S-04` to quickly run a test.
+
+  For details, see [ST04-ar-verpose/README.md](ST04-ar-verpose/README.md)
 
 - **more samples**: Please also see samples `he-007` for more details on IO handling.
 
@@ -152,7 +147,7 @@ There are a few other Workflows configured (named DEMO-01...DEMO-06 with model c
 
 To setup your environment, follow these steps:
 
-1. Install or update OGS >= V3.0.7 (see [OGS downloads](https://h-e.me/2osih))
+1. Install or update OGS >= V3.1.4 (see [OGS downloads](https://h-e.me/2osih))
 2. Eventually apply updates from `./updates`
 3. Modify `monitor.lua` (usually at `c:\program files(x86)\Bosch Rexroth AG\OGS V3.0`) to point to `config.lua` in this folder.
 4. Modify `config.lua` in this folder to point to the sample you want to run
@@ -188,7 +183,7 @@ To implement position tracking, OGS provides the following interface functions. 
 --   ToolPosDef: Database position data (encoded as a string, see below)
 --   TaskState:
 --       = 0 - before task start (checking external conditions...)
---       = 1 - after task start (task released)  but tool is still not running (start button 
+--       = 1 - after task start (task released)  but tool is still not running (start button
 --             not pressed)
 --       = 2 - Tool In Cycle
 --   TaskStep:
@@ -207,7 +202,7 @@ end
 -- the actual position into/from the string.
 --
 -- Parameters:
---   State: current teach state 
+--   State: current teach state
 --          (unknown = 0, teaching active = 1, start teaching = 2, stop teaching = 3)
 --   Tool: Tool/channel number of active tool
 --   JobName, TaskName: Currently active job/task
@@ -224,50 +219,19 @@ Instead of implementing the raw functions for position tracking, OGS provides a 
 (extensible) drivers. The architecture allows extending the drivers with custom code, e.g.
 to implement additional tracking hardware.
 
-To use these drivers, include the `positioning.lua` file (find it in [../shared/positioning.lua](../shared/positioning.lua)) in your project (through the `config.lua` requires list or directly
-by adding a `require('positioning)` somewhere in the code').
+To use these drivers, include the `positioning.lua` file in your project (through the `config.lua` requires list or directly by adding a `require('positioning)` somewhere in the code). Then link the tools to a driver in `station.ini` and configure it there.
 
-The `positioning.lua` file automatically scans the `[OPENPROTO]` section for `CHANNEL_XX_POSITIONING=<section>` parameters. If found, then the `<section>` is read. The
-section is expected to contain the `DRIVER=` parameter (to select the actual hardware)
-driver, as well as the driver-specific parameters for this specific tool. Note, that the
-driver itself might need some parameters (in its own section in `station.ini`).
+See the [OGS Tool Tracking and Positioning documentation](https://haller-erne.github.io/ogs/tools/positioning/) for more details about the generic setup and the available tool drivers.
 
-Here is a sample fragment on how to configure a tool with the AR-Tracking driver:
 
-``` ini
-[OPENPROTO]
-CHANNEL_01=192.168.1.42
-CHANNEL_01_TYPE=GWK
-CHANNEL_01_PORT=4002
-; --> this channel shall use ART positioning
-CHANNEL_01_POSITIONING=POSITIONING_ART_CH1
+The samples in this project show the usage of the following drivers:
 
-; --> Connection between the CHANNEL_01 and the ART positioning system
-[POSITIONING_ART_CH1]
-; --> use the ART positioning driver for this channel
-DRIVER=ART
-; for ART: define the target tracker name/number for this tool as configured in DTrack
-TARGET=1
-
-; --> common parameter required by the ART driver
-[POSITIONING_ART]
-; IP address and port number of the SmartTrack camera:
-IP=192.168.1.30
-PORT=5000
-```
-
-Currently, the following drivers are available:
-
-- `ART`: Driver for the [AR-Tracking SmartTrack3 realtime tracking system](https://ar-tracking.com/en/product-program/smarttrack3), implemented in `./shared/positioning_ART.lua`
+- `ART`: Driver for the [AR-Tracking SmartTrack3 realtime tracking system](https://ar-tracking.com/en/product-program/smarttrack3)
 
 - `IO`: Driver for the rotation + distance type systems (like the Jäger HandyFlex) with optional
-  support for tilt, implemented in `./shared/positioning_IO.lua`. Note that this driver requires
-  calling `UpdatePos_RotIncLenInc()` or `UpdatePos_RotIncLenAbs()` to update the raw position data. The driver then handles coordinate transforms, teaching and tolerance calculations internally.
+  support for tilt. Note that this driver requires calling `UpdatePos_RotIncLenInc()` or `UpdatePos_RotIncLenAbs()` to update the raw position data. The driver then handles coordinate transforms, teaching and tolerance calculations internally.
 - `DIGITAL`: Minimal positioning driver, which only uses a single "Inpos" signal (one must call
-  the drivers `UpdatePos_InPos()` function). This can be used to connect exisiting positioning
-  systems or implement own logic based on digital input combinations.The driver is implemented in `./shared/positioning_DIGITAL.lua`.
-
-The samples in this project show the usage of all of these drivers.
+  the drivers `UpdatePos_InPos()` function). This can be used to connect exisiting positioning systems or implement own logic based on digital input combinations.
 
 To add a custom driver, use one of the existing drivers as a base and override its functions.
 If the LUA module file name adheres to the driver naming convention (module name is `positioning_<drivername>.lua`), then the driver will automatically load, if `DRIVER=<drivername>` is given in `station.ini`.

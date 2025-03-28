@@ -76,7 +76,7 @@ will open the teachin sidepanel:
 
 ## Running a test
 
-For a quick test, use the `S-02` sample workflow (start it by entering the model code `S-02` and any 10-digit serial number). 
+For a quick test, use the `S-02` sample workflow (start it by entering the model code `S-02` and any 10-digit serial number).
 
 As all tasks/bolts in this workflow are positioning enabled, so you will likely see a yellow icon for the current positioning state (not in position):
 

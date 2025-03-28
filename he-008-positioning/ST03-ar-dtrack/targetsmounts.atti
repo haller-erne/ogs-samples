@@ -1,0 +1,13 @@
+ART-ToolTrackingInterface
+# Test Target-Traeger: Identitaet
+targetmount
+ id Identitaet
+ loc 0.0 0.0 0.0
+ rot 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0
+
+# Target-Traeger: Rexroth Nexo 2 Winkelkopfschrauber
+targetmount
+  id Rexroth Nexo 2
+  loc 0.000 -4.000 74.200
+  rot 0.0 1.0 0.0  -1.0 0.0 0.0  0.0 0.0 1.0
+

@@ -1,0 +1,20 @@
+ART-ToolTrackingInterface
+# Test Target HT30
+target
+ id HT30
+ nmar 4
+ mar -4.291 41.481 11.065
+ mar 57.769 -12.823 10.959
+ mar -20.203 5.057 10.959
+ mar -4.291 -33.753 11.06
+
+# Claw Target 21
+target
+ id CT21
+ nmar 4
+ mar -52.800 -59.840 8.000
+ mar -24.640 49.280 8.000
+ mar 59.840 49.280 8.000
+ mar 70.400 -24.640 8.000
+
+ 

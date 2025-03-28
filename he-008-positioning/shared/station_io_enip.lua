@@ -196,6 +196,7 @@ local M = {
     _NAME='station_io_enip',
     _VERSION='1.0-0',
     -- module specific data
+    dev = {}, --[[
     dev = {
         ['ini-name'] = {
             cfg = {                         -- everything from the ini-section
@@ -212,7 +213,7 @@ local M = {
             },
             -- more
         }
-    },
+    },]]
     DebugLevel = 0,
     -- callback functions
     OnDataChanged = nil,
@@ -220,7 +221,7 @@ local M = {
 }
 local initialized = nil
 
-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 -- Get version info
 local vdlls, vddlt = enip.version_mod()
 XTRACE(16, "Ethernet/IP scanner library. Version = "..vdlls)
@@ -259,7 +260,33 @@ local function get_dev_params(section, name, params)
     return cfg
 end
 -----------------------------------------------------------------------------------------
-local function read_ini_params(inisection)
+local function create_device(name, cfg, onConnChanged, onDataChanged)
+    local dev = {}
+    dev.cfg = cfg
+    dev.OnConnChanged = onConnChanged
+    dev.OnDataChanged = onDataChanged
+    -- create an ethernet/ip driver instance
+    dev.ctx = enip.new(cfg.ip, cfg.fwo)
+    if not dev.ctx then
+        local sErr = 'ERROR: initialization failed for Ethernet/IP device '..name..' ('..cfg.ip..')'
+        XTRACE(2, sErr)
+        return nil, sErr
+    else
+        XTRACE(16,'Initialization for '..name..' ('..cfg.ip..') successful')
+    end
+    dev.data = {
+        i = empty(cfg.fwo.TO_Size),
+        q = empty(cfg.fwo.OT_Size)
+    }
+    dev.data_old = {
+        i = empty(cfg.fwo.TO_Size),
+        q = empty(cfg.fwo.OT_Size)
+    }
+    dev.ctx:write_cyclic_io(0, dev.data.q)
+    return dev
+end
+-----------------------------------------------------------------------------------------
+local function AddDevicesFromIni(inisection)
 
     local cfg, err
     local dev = {}
@@ -275,26 +302,9 @@ local function read_ini_params(inisection)
             if not cfg then
                 return nil, err
             end
-            dev[name] = {}
-            dev[name].cfg = cfg
-            -- create an ethernet/ip driver instance
-            dev[name].ctx = enip.new(cfg.ip, cfg.fwo)
-            if not dev[name].ctx then
-                local sErr = 'ERROR: initialization failed for Ethernet/IP device '..name..' ('..cfg.ip..')'
-                XTRACE(2, sErr)
-                return nil, sErr
-            else
-                XTRACE(16,'Initialization for '..name..' ('..cfg.ip..') successful')
-            end
-            dev[name].data = {
-                i = empty(cfg.fwo.TO_Size),
-                q = empty(cfg.fwo.OT_Size)
-            }
-            dev[name].data_old = {
-                i = empty(cfg.fwo.TO_Size),
-                q = empty(cfg.fwo.OT_Size)
-            }
-            dev[name].ctx:write_cyclic_io(0, dev[name].data.q)
+            local dev = create_device(name, cfg)
+            -- Add the device to our list
+            M.dev[name] = dev
         end
     end
     return dev
@@ -302,64 +312,86 @@ end
 -----------------------------------------------------------------------------------------
 local function Init()
 
-    M.dev = {}
-    local dev, err = read_ini_params('STATION_IO_ENIP')
+    local dev, err = AddDevicesFromIni('STATION_IO_ENIP')
     if not dev then
         XTRACE(11, 'Error reading station.ini:'..err)
         error('Error reading station.ini:'..err)
     end
 
     -- save the config params
-    M.dev = dev
     initialized = true
 
     return nil -- OK!
 end
 --------------------------------------------------------------------------------------------
+-- Poll I/O module
+local function PollDevice(name, dev)
+    -- check connection state
+    local connected = dev.ctx:is_cycliciorunning()
+    if connected ~= dev.connected then        -- connection state changed
+        dev.connected = connected
+        if dev.OnConnChanged then
+            dev.OnConnChanged(dev)
+        else
+            if M.OnConnChanged then M.OnConnChanged(dev, connected) end
+        end
+        if connected then
+            XTRACE(16, name..": Cyclic IO running!")
+            ResetLuaAlarm(name)
+        else
+            XTRACE(1, name.." DISCONNECTED!")
+            SetLuaAlarm(name, -2, name.." disconnected!")
+        end
+    end
+    -- update data
+    if dev.connected then
+        -- read inputs
+        dev.data_old.i = dev.data.i
+        dev.data.i = dev.ctx:read_cyclic_io(0, dev.cfg.fwo.TO_Size)
+        if dev.data.i ~= dev.data_old.i then
+            if dev.OnDataChanged then 
+                dev.OnDataChanged(dev)
+            else
+                if M.OnDataChanged then M.OnDataChanged(dev) end
+            end
+            if M.DebugLevel > 4 then
+                XTRACE(16, string.format('     rd: %s: #size=%d: %s', name, #dev.data.i, basexx.to_hex(dev.data.i)))
+            end
+        end
+        -- update outputs
+        if dev.cfg.fwo.OT_Size > 0 then
+            if dev.data.q ~= dev.data_old.q then
+                if M.DebugLevel > 4 then
+                    XTRACE(16, string.format('     wr: %s: #size=%d: %s', name, #dev.data.q, basexx.to_hex(dev.data.q)))
+                end
+                dev.ctx:write_cyclic_io(0, dev.data.q)
+                dev.data_old.q = dev.data.q
+            end
+        end
+    end
+end
+
+--------------------------------------------------------------------------------------------
 -- Poll I/O modules
 local function Poll()
     if not initialized then Init() end
     for name, dev in pairs(M.dev) do
-        -- check connection state
-        local connected = dev.ctx:is_cycliciorunning()
-        if connected ~= dev.connected then        -- connection state changed
-            if M.OnConnChanged then M.OnConnChanged(dev, connected) end
-            if connected then
-                XTRACE(16, name..": Cyclic IO running!")
-                ResetLuaAlarm(name)
-            else
-                XTRACE(1, name.." DISCONNECTED!")
-                SetLuaAlarm(name, -2, name.." disconnected!")
-            end
-        end
-        dev.connected = connected
-        -- update data
-        if dev.connected then
-            -- read inputs
-            dev.data_old.i = dev.data.i
-            dev.data.i = dev.ctx:read_cyclic_io(0, dev.cfg.fwo.TO_Size)
-            if dev.data.i ~= dev.data_old.i then
-                if M.OnDataChanged then M.OnDataChanged(dev) end
-                if M.DebugLevel > 0 then
-                    XTRACE(16, string.format('     rd: %s: #size=%d: %s', name, #dev.data.i, basexx.to_hex(dev.data.i)))
-                end
-            end
-            -- update outputs
-            if dev.cfg.fwo.OT_Size > 0 then
-                if dev.data.q ~= dev.data_old.q then
-                    if M.DebugLevel > 0 then
-                        XTRACE(16, string.format('     wr: %s: #size=%d: %s', name, #dev.data.q, basexx.to_hex(dev.data.q)))
-                    end
-                    dev.ctx:write_cyclic_io(0, dev.data.q)
-                    dev.data_old.q = dev.data.q
-                end
-            end
-         end
+        PollDevice(name, dev)
     end
 end
 
 M.UpdateOutputs = function()
     Poll()
+end
+
+M.PollDevice = function(name, dev)
+    PollDevice(name, dev)
+end
+
+M.AddDevice = function(name, cfg, onConnChange, onDataChange)
+    local dev = create_device(name, cfg, onConnChange, onDataChange)
+    M.dev[name] = dev
+    return dev
 end
 
 -------------------------------------------------------------------------------
