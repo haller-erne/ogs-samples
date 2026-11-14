@@ -7,20 +7,23 @@ npm create vite@latest
 ```
 
 Dann die folgenden Eintragungen machen:
-    - project name = web_barcodescanner
+    - project name = web_barcodedetector
     - type = vanilla - javascript
 
 ``` cmd
-cd web_barcodescanner
+cd web_barcodedetector
 npm install
 ```
 
 Um die Barcode-Library hinzuzufügen, NPM verwenden:
 
 ``` cmd
-// https://blog.minhazav.dev/research/html5-qrcode.html
-npm i html5-qrcode
+npm install
 ```
+
+Der Barcode-Detektor und die passende WebAssembly-Version sind in `package.json`
+festgelegt. Vite bindet die WebAssembly-Datei lokal ein; eine CDN-Verbindung
+ist zur Laufzeit nicht erforderlich.
 
 ## Anpassungen
 
