@@ -2,16 +2,36 @@ import './style.css'
 import { BarcodeDetector, prepareZXingModule } from 'barcode-detector/ponyfill'
 import wasmUrl from 'zxing-wasm/reader/zxing_reader.wasm?url'
 
-prepareZXingModule({
-  overrides: {
-    locateFile: (path, prefix) => path.endsWith('.wasm') ? wasmUrl : prefix + path
-  }
-})
-
 const OGS = window.OGS || {}
 const video = document.querySelector('#webcam')
+const cameraError = document.querySelector('#camera-error')
 const divResult = document.querySelector('#qr-reader-results')
-const detector = new BarcodeDetector()
+let detectorPromise = null
+
+function getDetector() {
+  if (!detectorPromise) {
+    detectorPromise = fetch(wasmUrl)
+      .then(async response => {
+        if (!response.ok) throw new Error(`Unable to load barcode decoder: ${response.status}`)
+        const contentType = response.headers.get('content-type')?.split(';')[0].trim().toLowerCase()
+        if (contentType === 'application/wasm') {
+          await response.arrayBuffer()
+          prepareZXingModule({
+            overrides: { locateFile: (path, prefix) => path.endsWith('.wasm') ? wasmUrl : prefix + path }
+          })
+        } else {
+          const wasmBinary = await response.arrayBuffer()
+          prepareZXingModule({ overrides: { wasmBinary: new Uint8Array(wasmBinary) } })
+        }
+        return new BarcodeDetector({ formats: ['qr_code', 'data_matrix', 'code_128'] })
+      })
+      .catch(error => {
+        detectorPromise = null
+        throw error
+      })
+  }
+  return detectorPromise
+}
 
 let lastResult = ''
 let stream = null
@@ -28,12 +48,16 @@ function stopCamera() {
     stream = null
   }
   video.srcObject = null
+  cameraError.hidden = true
+  cameraError.textContent = ''
   lastResult = ''
 }
 
 async function scanLoop(generation) {
   try {
-    if (video.readyState >= video.HAVE_ENOUGH_DATA) {
+    if (video.readyState >= video.HAVE_ENOUGH_DATA && video.videoWidth && video.videoHeight) {
+      const detector = await getDetector()
+      if (generation !== cameraGeneration) return
       const barcodes = await detector.detect(video)
       if (generation !== cameraGeneration) return
       const barcode = barcodes[0]
@@ -96,6 +120,16 @@ OGS.StartCamera = async function(facingMode) {
     if (generation === cameraGeneration) {
       stopCamera()
       console.error('Unable to start camera:', error)
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        cameraError.textContent = 'Camera access was denied. Check the camera permissions for this page.'
+      } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+        cameraError.textContent = 'No camera was found. Connect a camera and try again.'
+      } else if (!navigator.mediaDevices?.getUserMedia) {
+        cameraError.textContent = 'Camera access is unavailable. Use a secure connection or localhost and check browser permissions.'
+      } else {
+        cameraError.textContent = 'Unable to start the camera. Check that it is connected and not in use by another application.'
+      }
+      cameraError.hidden = false
     }
   }
 }
@@ -110,6 +144,7 @@ window.OGS = OGS
 
 function startStandalone() {
   if (!OGS.SendCmd && !lifecycleStarted) {
+    console.info('Running in standalone mode with simulated OGS.')
     OGS.onInit(window.location.href)
     OGS.onShow()
   }

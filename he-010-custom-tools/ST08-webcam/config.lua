@@ -19,5 +19,6 @@ requires = {
 }
 current_project.logo_file = 'logo.png'
 --current_project.billboard = 'http://127.0.0.1:60000/billboard.html'
-current_project.billboard = 'http://127.0.0.1:60000/web_barcodescanner/dist/index.html'
+--current_project.billboard = 'http://127.0.0.1:60000/web_barcodescanner/dist/index.html'
+current_project.billboard = 'http://127.0.0.1:60000/web_barcodedetector/dist/index.html'
 
