@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Capture</title>
+    <link rel="stylesheet" href="Webcam.css"> 
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
+</head>
+<body>
+    <div id="divVideo" class="fillall">
+        <video id="videoElement" autoplay style="width:100%"></video>
+        <canvas id="canvasElement" style="display: none;"></canvas>
+    </div>
+    <div id="divImage" class="fillall">
+        <img id="photoElement" src="images/demoimage.png" style="width: 100%">
+    </div>
+    <div id="buttons" class="float-container">
+        <!-- style="margin-top:auto; align-self: flex-end;" -->
+        <a id="captureButton" href="#" class="float" >
+            <i class="fa my-float">&#128247;</i>
+        </a>
+        <a id="okButton" style="display: none;" href="#" class="float">
+            <i class="fa my-float">&#10003;</i>
+        </a>
+        <a id="retryButton" style="display: none;" href="#" class="float">
+            <i class="fa my-float">&#x21bb;</i>
+        </a>
+        <a id="nokButton" style="display: none;" href="#" class="float">
+            <i class="fa my-float">&#10007;</i>
+        </a>
+    </div>
+    <script type="module">
+        import { OGS } from './WebCam.js';
+        window.OGS = OGS;
+        // debug:
+        window.onload = function(e) { 
+            console.log("window.onload");
+            if (!OGS.SendCmd) {
+                console.log("Running outside of OGS! Simulating the onSHow() event...")
+                OGS.onShow();
+            }
+        }
+        // debug end
+    </script>
+</body>
+</html>

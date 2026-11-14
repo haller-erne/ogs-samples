@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!--<link rel="icon" type="image/svg+xml" href="/vite.svg" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barcode Scanner</title>
+  <style>
+	body {
+	  font-family: system-ui, sans-serif;
+	  max-width: 600px;
+	  margin: 2rem auto;
+	  padding: 0 1rem;
+	  text-align: center;
+	}
+	video {
+	  width: 100%;
+	  max-width: 480px;
+	  border-radius: 8px;
+	  background: #000;
+	  display: block;
+	  margin: 1rem auto;
+	}
+	button {
+	  padding: 0.6rem 1.2rem;
+	  font-size: 1rem;
+	  cursor: pointer;
+	}
+	#result {
+	  margin-top: 1.5rem;
+	  padding: 1rem;
+	  background: #f0f4f8;
+	  border-radius: 6px;
+	  word-break: break-all;
+	  font-weight: bold;
+	}
+  </style>
+  </head>
+  <body style="overflow:hidden">
+    <video id="webcam" playsinline muted></video>
+    <!--<div id="qr-reader" style="width:1000px"></div>
+    <div id="qr-reader-results"></div>-->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

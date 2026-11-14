@@ -1,0 +1,67 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "heOGS (3.1)",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              "command": "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1/monitor.exe",
+              "communication": "stdio"
+            },
+            "args": [
+            ],
+            "scriptRoots": [
+                "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1",
+                "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1/lualibs"
+            ],
+            "stopOnEntry": true,
+            "cwd": "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1/",
+            //"verbose": true
+        },
+        {
+            "name": "lua-5.1-dyn",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              "command": "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1/lua-5.1-dyn.exe",
+              "communication": "stdio"
+            },
+            "args": [
+                "${file}"
+            ],
+            "scriptRoots": [
+                "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1",
+                "c:/program files (x86)/Haller + Erne GmbH/OGS 3.1/lualibs"
+            ],
+            "stopOnEntry": true,
+            "cwd": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/",
+            "verbose": false,
+            "integratedTerminal": true,
+            "pullBreakpointsSupport": true,
+        },
+        {
+            "name": "heOGS (he)",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+              "command": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/monitor.exe",
+              "communication": "stdio"
+            },
+            "args": [
+            ],
+            "scriptRoots": [
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug",
+                "D:/Sandboxes/ogs/ogs-trunk/bin/debug/lualibs",
+            ],
+            "stopOnEntry": false,
+            "cwd": "D:/Sandboxes/ogs/ogs-trunk/bin/debug/",
+            "verbose": false,
+            "integratedTerminal": true,
+            "pullBreakpointsSupport": true,
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "ogs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/web_barcodedetector/dist/",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "barcode-detector": "^3.2.3"
+  }
+}
