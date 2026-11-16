@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barcode Scanner</title>
+  </head>
+  <body>
+		<video id="webcam" playsinline muted></video>
+    <div id="camera-error" role="alert" hidden></div>
+		<div id="qr-reader-results"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
