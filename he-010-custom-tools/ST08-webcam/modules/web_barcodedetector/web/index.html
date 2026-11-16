@@ -8,7 +8,15 @@
     <title>Barcode Scanner</title>
   </head>
   <body>
-		<video id="webcam" playsinline muted></video>
+    <div id="camera-view" class="is-paused">
+      <video id="webcam" playsinline muted></video>
+      <button id="camera-toggle" type="button" aria-label="Start scanning" title="Start scanning">
+        <span class="pause-prompt" aria-hidden="true">
+          <span class="play-icon"></span>
+          <span>Click to start barcode scanning</span>
+        </span>
+      </button>
+    </div>
     <div id="camera-error" role="alert" hidden></div>
 		<div id="qr-reader-results"></div>
     <script type="module" src="/src/main.js"></script>

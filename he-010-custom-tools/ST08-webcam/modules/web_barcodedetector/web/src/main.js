@@ -4,6 +4,8 @@ import wasmUrl from 'zxing-wasm/reader/zxing_reader.wasm?url'
 
 const OGS = window.OGS || {}
 const video = document.querySelector('#webcam')
+const cameraView = document.querySelector('#camera-view')
+const cameraToggle = document.querySelector('#camera-toggle')
 const cameraError = document.querySelector('#camera-error')
 const divResult = document.querySelector('#qr-reader-results')
 let detectorPromise = null
@@ -38,11 +40,29 @@ let stream = null
 let scanTimer = null
 let cameraGeneration = 0
 let lifecycleStarted = false
+let cameraFacingMode = 'environment'
+let isPaused = true
 
-function stopCamera() {
+function updatePlaybackState(paused) {
+  isPaused = paused
+  cameraView.classList.toggle('is-paused', paused)
+  const label = paused ? 'Start scanning' : 'Pause scanning'
+  cameraToggle.setAttribute('aria-label', label)
+  cameraToggle.title = label
+}
+
+function pauseCamera() {
   cameraGeneration++
   clearTimeout(scanTimer)
   scanTimer = null
+  video.pause()
+  updatePlaybackState(true)
+  lastResult = ''
+}
+
+function stopCamera() {
+  pauseCamera()
+  cameraToggle.disabled = false
   if (stream) {
     stream.getTracks().forEach(track => track.stop())
     stream = null
@@ -54,6 +74,7 @@ function stopCamera() {
 }
 
 async function scanLoop(generation) {
+  if (isPaused || generation !== cameraGeneration) return
   try {
     if (video.readyState >= video.HAVE_ENOUGH_DATA && video.videoWidth && video.videoHeight) {
       const detector = await getDetector()
@@ -103,19 +124,32 @@ OGS.sendScanData = function(decodedText, decodedResult) {
 OGS.StartCamera = async function(facingMode) {
   console.log('OGS.StartCamera()', facingMode)
   stopCamera()
+  cameraFacingMode = facingMode || 'environment'
+}
+
+async function startPlayback() {
+  if (cameraToggle.disabled) return
+  cameraToggle.disabled = true
+  cameraError.hidden = true
+  cameraError.textContent = ''
   const generation = cameraGeneration
   try {
-    const newStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode }
-    })
-    if (generation !== cameraGeneration) {
-      newStream.getTracks().forEach(track => track.stop())
-      return
+    if (!stream) {
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: cameraFacingMode }
+      })
+      if (generation !== cameraGeneration) {
+        newStream.getTracks().forEach(track => track.stop())
+        return
+      }
+      stream = newStream
+      video.srcObject = stream
     }
-    stream = newStream
-    video.srcObject = stream
     await video.play()
-    if (generation === cameraGeneration) scanLoop(generation)
+    if (generation === cameraGeneration) {
+      updatePlaybackState(false)
+      scanLoop(generation)
+    }
   } catch (error) {
     if (generation === cameraGeneration) {
       stopCamera()
@@ -131,8 +165,19 @@ OGS.StartCamera = async function(facingMode) {
       }
       cameraError.hidden = false
     }
+  } finally {
+    if (generation === cameraGeneration) cameraToggle.disabled = false
   }
 }
+
+cameraToggle.addEventListener('click', () => {
+  if (isPaused) {
+    startPlayback()
+  } else {
+    pauseCamera()
+  }
+})
+
 OGS.ShowScanResult = function(cmd) {
   console.log('OGS.ShowScanResult()', cmd)
   const result = JSON.parse(cmd)
