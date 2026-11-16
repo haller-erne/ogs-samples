@@ -125,9 +125,10 @@ OGS.StartCamera = async function(facingMode) {
   console.log('OGS.StartCamera()', facingMode)
   stopCamera()
   cameraFacingMode = facingMode || 'environment'
+  await startPlayback(true)
 }
 
-async function startPlayback() {
+async function startPlayback(previewOnly = false) {
   if (cameraToggle.disabled) return
   cameraToggle.disabled = true
   cameraError.hidden = true
@@ -146,6 +147,18 @@ async function startPlayback() {
       video.srcObject = stream
     }
     await video.play()
+    if (generation !== cameraGeneration) return
+    if (previewOnly) {
+      await new Promise(resolve => {
+        if (video.requestVideoFrameCallback) {
+          video.requestVideoFrameCallback(resolve)
+        } else {
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        }
+      })
+      if (generation === cameraGeneration) video.pause()
+      return
+    }
     if (generation === cameraGeneration) {
       updatePlaybackState(false)
       scanLoop(generation)
