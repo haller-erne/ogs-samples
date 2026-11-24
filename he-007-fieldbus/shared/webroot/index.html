@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OGS Smooth Horizontal Animation</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.image-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url("startpage.png") center/contain no-repeat;
+  background-color: #000;
+}
+
+.info-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 18px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.info-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.floating-text {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ccc;
+  font-size: 2.7rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  max-width: 90vw;
+  line-height: 1.4;
+  user-select: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.floating-text.fade-out {
+  opacity: 0;
+}
+
+.floating-text span {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  white-space: nowrap;
+}
+
+.floating-text span.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Separator dots between phrases */
+.floating-text .separator {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.floating-text .separator.show {
+  opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<div class="image-container">
+  <div class="floating-text" id="ogsText"></div>
+ <! -- <button class="info-btn">More Info</button> -->
+</div>
+
+<script>
+const phrases = [
+  "OGS guides",
+  "It checks",
+  "It documents",
+  "It optimizes"
+];
+
+const container = document.getElementById("ogsText");
+let phraseIndex = 0;
+
+function buildStructure() {
+  container.innerHTML = "";
+  phrases.forEach((phrase, i) => {
+    const span = document.createElement("span");
+    span.textContent = phrase;
+    container.appendChild(span);
+    
+    // Add separator between phrases (not after last)
+    if (i < phrases.length - 1) {
+      const sep = document.createElement("span");
+      sep.className = "separator";
+      sep.textContent = "·";
+      container.appendChild(sep);
+    }
+  });
+}
+
+function runAnimation() {
+  buildStructure();
+  container.classList.remove("fade-out");
+  
+  const spans = container.querySelectorAll("span:not(.separator)");
+  const separators = container.querySelectorAll(".separator");
+  phraseIndex = 0;
+  
+  function showNext() {
+    if (phraseIndex < spans.length) {
+      spans[phraseIndex].classList.add("show");
+      // Show separator before this phrase (if exists)
+      if (phraseIndex > 0 && separators[phraseIndex - 1]) {
+        separators[phraseIndex - 1].classList.add("show");
+      }
+      phraseIndex++;
+      setTimeout(showNext, 800);
+    } else {
+      // All visible — hold, then fade out
+      setTimeout(() => {
+        container.classList.add("fade-out");
+        setTimeout(runAnimation, 1000); // restart after fade
+      }, 2500);
+    }
+  }
+  
+  setTimeout(showNext, 300);
+}
+
+runAnimation();
+</script>
+
+</body>
+</html>
